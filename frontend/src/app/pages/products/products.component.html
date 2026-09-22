@@ -1,0 +1,33 @@
+<section class="page">
+  <div class="page-header">
+    <h1>Our Products</h1>
+    <p>Browse our full catalogue of groceries and household items.</p>
+  </div>
+
+  <div class="filters">
+    <input type="text" placeholder="🔍 Search products..." [ngModel]="search()" (ngModelChange)="search.set($event)" />
+    <select [ngModel]="category()" (ngModelChange)="category.set($event)">
+      <option *ngFor="let c of categories()" [value]="c">{{ c === 'all' ? 'All categories' : c }}</option>
+    </select>
+  </div>
+
+  <div *ngIf="loading()" class="state">Loading products...</div>
+  <div *ngIf="error()" class="state error">⚠️ {{ error() }}</div>
+  <div *ngIf="!loading() && !error() && filtered().length === 0" class="state">No products match your filters.</div>
+
+  <div class="grid" *ngIf="filtered().length">
+    <article class="product-card" *ngFor="let p of filtered(); let i = index" [style.animation-delay]="(i * 30) + 'ms'">
+      <div class="product-img">
+        <img [src]="'https://source.unsplash.com/400x300/?grocery,' + p.category.toLowerCase()" [alt]="p.name" loading="lazy" />
+      </div>
+      <div class="product-body">
+        <span class="tag">{{ p.category }}</span>
+        <h3>{{ p.name }}</h3>
+        <div class="price-row">
+          <span class="price">KSh {{ p.price }}</span>
+          <a routerLink="/orders" class="btn btn-primary btn-sm">Order</a>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>

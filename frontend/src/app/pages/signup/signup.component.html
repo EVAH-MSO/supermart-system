@@ -1,0 +1,26 @@
+<div class="auth-wrap">
+  <div class="card auth-card">
+    <div class="logo">🛒</div>
+    <h2>Create your account</h2>
+    <p class="sub">Join SuperMart and start ordering</p>
+
+    <label>Email</label>
+    <input [(ngModel)]="email" type="email" placeholder="you@example.com" />
+
+    <label>Password</label>
+    <input [(ngModel)]="password" type="password" placeholder="At least 6 characters" />
+
+    <label>Confirm password</label>
+    <input [(ngModel)]="confirm" type="password" placeholder="Repeat password" />
+
+    <div *ngIf="error()" class="err">{{ error() }}</div>
+
+    <button class="btn-primary" (click)="submit()" [disabled]="submitting()">
+      {{ submitting() ? 'Creating...' : 'Create account' }}
+    </button>
+
+    <p class="alt">
+      Already have an account? <a routerLink="/login">Log in</a>
+    </p>
+  </div>
+</div>

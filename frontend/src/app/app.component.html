@@ -1,0 +1,46 @@
+<app-splash></app-splash>
+
+<header class="navbar">
+  <div class="nav-inner container">
+    <a routerLink="/" class="brand">
+      <span class="logo">🛒</span>
+      <span class="brand-name">SuperMart</span>
+    </a>
+
+    <nav class="nav-links" [class.open]="menuOpen()">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Home</a>
+      <a routerLink="/products" routerLinkActive="active">Products</a>
+      <a routerLink="/order" routerLinkActive="active">Order</a>
+      <a routerLink="/orders" routerLinkActive="active" *ngIf="auth.isLoggedIn">My Orders</a>
+      <a routerLink="/customers" routerLinkActive="active">Customers</a>
+      <a routerLink="/about" routerLinkActive="active">About</a>
+
+      <ng-container *ngIf="auth.isLoggedIn; else showLogin">
+        <span class="user-chip">👤 {{ auth.email() }}</span>
+        <button class="btn btn-ghost" (click)="logout()">Logout</button>
+      </ng-container>
+      <ng-template #showLogin>
+        <a routerLink="/login" class="btn btn-primary nav-cta">Login</a>
+      </ng-template>
+    </nav>
+
+    <button class="menu-toggle" (click)="toggleMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main [class.page-anim]="pageKey()">
+  <router-outlet></router-outlet>
+</main>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <div><strong>SuperMart</strong> — Retail Data Warehouse Demo</div>
+    <div class="footer-links">
+      <a routerLink="/about">About</a>
+      <a routerLink="/privacy">Privacy</a>
+      <a routerLink="/contact">Contact</a>
+    </div>
+  </div>
+</footer>

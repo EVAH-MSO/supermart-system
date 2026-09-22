@@ -1,0 +1,62 @@
+<section class="page">
+  <div class="page-header">
+    <h1>Place an Order</h1>
+    <p>Pick a product, choose your store, and confirm.</p>
+  </div>
+
+  <div class="order-layout">
+    <div class="card form-card">
+      <div *ngIf="loading()" class="state">Loading products...</div>
+
+      <form *ngIf="!loading()" (ngSubmit)="submit()">
+        <label>Product</label>
+        <select [(ngModel)]="productId" name="product" (change)="recalc()">
+          <option [ngValue]="0">— Select a product —</option>
+          <option *ngFor="let p of products()" [ngValue]="p.id">
+            {{ p.name }} — KSh {{ p.price }}
+          </option>
+        </select>
+
+        <label>Quantity</label>
+        <input type="number" [(ngModel)]="quantity" name="qty" min="1" (change)="recalc()" />
+
+        <label>Store</label>
+        <select [(ngModel)]="storeId" name="store">
+          <option *ngFor="let s of stores()" [ngValue]="s.id">{{ s.name }} ({{ s.city }})</option>
+        </select>
+
+        <button type="submit" class="btn btn-primary submit"
+                [disabled]="!productId || quantity < 1 || submitting()">
+          {{ submitting() ? 'Placing...' : 'Place Order' }}
+        </button>
+
+        <div class="msg success" *ngIf="success()">
+          ✅ Order placed! Redirecting to your orders...
+        </div>
+        <div class="msg error" *ngIf="errorMsg()">⚠️ {{ errorMsg() }}</div>
+      </form>
+    </div>
+
+    <aside class="card summary">
+      <h3>Order Summary</h3>
+      <div class="summary-row">
+        <span>Product</span>
+        <strong>{{ productId ? (products().find(p => p.id === +productId)?.name || '—') : '—' }}</strong>
+      </div>
+      <div class="summary-row">
+        <span>Quantity</span>
+        <strong>{{ quantity }}</strong>
+      </div>
+      <div class="summary-row">
+        <span>Unit price</span>
+        <strong>KSh {{ products().find(p => p.id === +productId)?.price || 0 }}</strong>
+      </div>
+      <hr />
+      <div class="summary-total">
+        <span>Total</span>
+        <strong>KSh {{ total }}</strong>
+      </div>
+      <p class="note">💡 Every order flows into the warehouse dashboard within 24 hours.</p>
+    </aside>
+  </div>
+</section>

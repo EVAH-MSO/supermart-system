@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.pyc
+.env
+.env.local
+backend_env.sh
+
+# Node
+node_modules/
+frontend/dist/
+frontend/.angular/
+
+# Misc
+*.log
+.DS_Store

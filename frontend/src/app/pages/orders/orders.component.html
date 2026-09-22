@@ -1,0 +1,39 @@
+<section class="page">
+  <div class="page-header">
+    <h1>My Orders</h1>
+    <p>Signed in as <strong>{{ auth.email() }}</strong></p>
+  </div>
+
+  <div class="card" *ngIf="loading()"><p>Loading your orders...</p></div>
+  <div class="card err-card" *ngIf="error()"><p>⚠️ {{ error() }}</p></div>
+
+  <div class="card empty" *ngIf="!loading() && !error() && orders().length === 0">
+    <div class="empty-icon">📦</div>
+    <h3>No orders yet</h3>
+    <p>You haven't placed any orders. Start shopping!</p>
+    <a routerLink="/order" class="btn-primary">Place your first order →</a>
+  </div>
+
+  <table class="orders-table" *ngIf="orders().length">
+    <thead>
+      <tr>
+        <th>Order</th>
+        <th>Product</th>
+        <th>Qty</th>
+        <th>Total</th>
+        <th>Store</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let o of orders()">
+        <td><span class="order-id">#{{ o.id }}</span></td>
+        <td><strong>{{ o.product_name }}</strong></td>
+        <td>{{ o.quantity }}</td>
+        <td class="total">KSh {{ o.total }}</td>
+        <td>{{ o.store_name }}</td>
+        <td><small>{{ o.created_at }}</small></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
