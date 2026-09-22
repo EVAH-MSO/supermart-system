@@ -141,7 +141,7 @@ def health():
 @app.get("/api/products")
 def get_products():
     conn = db(); cur = conn.cursor()
-    cur.execute("SELECT id, name, category, price FROM products ORDER BY id")
+    cur.execute("SELECT id, name, category, price, image_url FROM products ORDER BY id")
     rows = cur.fetchall()
     cur.close(); conn.close()
     return rows

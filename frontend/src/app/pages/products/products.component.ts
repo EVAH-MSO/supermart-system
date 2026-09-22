@@ -20,25 +20,33 @@ export class ProductsComponent implements OnInit {
   category = signal('all');
 
   categories = computed(() => {
-    const set = new Set(this.products().map(p => p.category));
+    const set = new Set(this.products().map((p) => p.category));
     return ['all', ...Array.from(set)];
   });
 
   filtered = computed(() => {
     const q = this.search().toLowerCase();
     const cat = this.category();
-    return this.products().filter(p =>
-      (cat === 'all' || p.category === cat) &&
-      (!q || p.name.toLowerCase().includes(q))
+    return this.products().filter(
+      (p) => (cat === 'all' || p.category === cat) && (!q || p.name.toLowerCase().includes(q)),
     );
   });
 
   constructor(private api: ApiService) {}
+  onImgError(event: any, name: string) {
+    event.target.src = `https://placehold.co/400x300/E8F5E9/046A38?text=${encodeURIComponent(name)}`;
+  }
 
   ngOnInit() {
     this.api.getProducts().subscribe({
-      next: (data) => { this.products.set(data); this.loading.set(false); },
-      error: () => { this.error.set('Could not load products. Is the backend running?'); this.loading.set(false); },
+      next: (data) => {
+        this.products.set(data);
+        this.loading.set(false);
+      },
+      error: () => {
+        this.error.set('Could not load products. Is the backend running?');
+        this.loading.set(false);
+      },
     });
   }
 }

@@ -18,7 +18,12 @@
   <div class="grid" *ngIf="filtered().length">
     <article class="product-card" *ngFor="let p of filtered(); let i = index" [style.animation-delay]="(i * 30) + 'ms'">
       <div class="product-img">
-        <img [src]="'https://source.unsplash.com/400x300/?grocery,' + p.category.toLowerCase()" [alt]="p.name" loading="lazy" />
+        <img
+  [src]="p.image_url || 'https://placehold.co/400x300/E8F5E9/046A38?text=' + encodeURIComponent(p.name)"
+  [alt]="p.name"
+  loading="lazy"
+  (error)="onImgError($event, p.name)"
+/>
       </div>
       <div class="product-body">
         <span class="tag">{{ p.category }}</span>
