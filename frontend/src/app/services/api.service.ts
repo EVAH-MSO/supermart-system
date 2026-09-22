@@ -5,7 +5,7 @@ import { Product } from '../models/product.model';
 import { Store } from '../models/store.model';
 import { Customer } from '../models/customer.model';
 
-const API = 'http://localhost:8080/api';
+const API = 'https://supermart-system.onrender.com/api';
 
 @Injectable({ providedIn: 'root' })
 export class ApiService {
